@@ -50,15 +50,11 @@ request('http://www.hostels.com/paris/france?dateFrom=2016-06-11&dateTo=2016-06-
 
   var $ = cheerio.load(html);
   var result = [];
-  $('h2').each(function(i, element){
+$('h2').each(function(i, element){
+  console.log('found an h2');
+// });
+    
+  //   });
+//   // console.log(result);
+// });
 
-      var title = $(this).text();
-      var link = $(element).attr('href');
-      
-      result.push({
-        title:title,
-        link:link
-      });
-    });
-  console.log(result);
-});
