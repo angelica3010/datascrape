@@ -1,15 +1,28 @@
 {
   "name": "homework",
   "version": "1.0.0",
-  "description": "",
   "main": "server2.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^0.20.0",
-    "request": "^2.72.0"
-  }
+    "morgan": "^1.7.0",
+    "phantomjs": "^2.1.7",
+    "request": "^2.72.0",
+    "webpage": "^0.3.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelica3010/week18datascrape.git"
+  },
+  "bugs": {
+    "url": "https://github.com/angelica3010/week18datascrape/issues"
+  },
+  "homepage": "https://github.com/angelica3010/week18datascrape#readme",
+  "description": ""
 }
