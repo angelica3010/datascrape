@@ -86,6 +86,37 @@ app.get('/articles/:id', function(req, res){
 	});
 });
 
+// Find All Notes (including null notes)
+
+// db.records.find( { note: { $exists: true } } )
+app.get('/showallnotes/', function(req, res){
+	//$and: 
+	//db.inventory.find( { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] } )
+
+// db.inventory.find( { price: { $ne: 1.99, $exists: true } } )
+
+
+	// db.inventory.find( {
+ //    $and : [
+ //        { $or : [ { price : 0.99 }, { price : 1.99 } ] },
+ //        { $or : [ { sale : true }, { qty : { $lt : 20 } } ] }
+ //    ]
+// } )
+// 
+// find({"IMAGE URL":{$ne:null}});
+	// Article.find( {note: { $ne: null },  note: { $exists: true }})
+Article.find({"note": {$ne: null}})
+
+	.populate('note')
+	.exec(function(err, doc){
+		if (err){
+			console.log(err);
+		} else {
+			res.json(doc);
+		}
+	});
+});
+
 
 app.post('/articles/:id', function(req, res){
 	var newNote = new Note(req.body);
@@ -168,16 +199,38 @@ app.get('/populatednotes', function(req, res) {
 // mongojs npm package is here https://www.npmjs.com/package/mongojs
 
 app.post('/delete/:id', function(req, res) {
-	var database = "mongoosehwscraper";
-	var collections = ["notes"];
-	var dbs = mongojs(database, collections);
-	dbs.on('error', function(err) {
-	  console.log('Database Error:', err);
-	});
-	var ObjectId = mongojs.ObjectId;
-	console.log({"_id": ObjectId(req.params.id)})
+	// var database = "mongoosehwscraper";
+	// var collections = ["notes"];
+	// var dbs = mongoose(database, collections);
+	// dbs.on('error', function(err) {
+	//   console.log('Database Error:', err);
+	// });
+	// var ObjectId = mongoose.ObjectId;
+	// console.log({"_id": ObjectId(req.params.id)})
+	  Article.findOneAndUpdate({_id:req.params.id}, {'notes':''}, {new: true}, function(err, doc) {
+        if (err) {
+          res.send(err);
+        } else {
+        	console.log('Bye Felicia')
+          res.send(doc);
+        }
+      });
+});
 
+
+
+// Deleting All the Notes
+app.post('/deletenotes', function(req, res) {
+	Note.remove({}, function(err,stuff) {
+		if (err) {
+			console.log(err)
+		} else {
+			console.log(stuff)
+		}
+	});
+});
 
 app.listen(3006, function() {
   console.log('App running on port 3006!');
+
 });

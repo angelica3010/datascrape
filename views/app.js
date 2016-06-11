@@ -7,11 +7,13 @@
 // > db.articles.find()
 // { "_id" : ObjectId("575b2518c058c25dabc3e3c1"), "title" : "jQuery 3.0 Final Released!", "link" : "http://blog.jquery.com/2016/06/09/jquery-3-0-final-released/", "__v" : 0 }
 
+// Remember you can't direclty go on a post route, so you can't go  to localhost:3006/note
 
 // added note here to match article.js file
 $.getJSON('/articles', function(data) {
   for (var i = 0; i<data.length; i++){
-    $('#articles').append('<p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + data[i].note '</p>');
+    $('#articles').append('<p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + data[i].note +'</p>');
+  
   }
 });
 
@@ -73,14 +75,40 @@ $(document).on('click', '#deletenote', function(){
     method: "POST",
     url: "/delete/" + specificnotedelete,
     
-    }
-  })
-
-  // Write something similar for deleting?
+    })
     .done(function( data ) {
       console.log(data);
       $('#notes').empty();
     });
+  });
 
-});
+//Delete All Notes
+$(document).on('click', '#deleteallnotes', function(){
+  $.ajax({
+    method: "POST",
+    url: "/deletenotes/" ,
+    
+    })
+    .done(function( data ) {
+      console.log(data);
+      $('#notes').empty();
+    });
+  });
+
+// Show All Notes
+$(document).on('click', '#showallnotes', function(){
+
+// 
+  $.ajax({
+    method: "GET",
+    url: "/showallnotes/" ,
+    
+    })
+    .done(function( data ) {
+      console.log(data);
+
+      $('#notes').html(JSON.stringify(data))
+      // $('#notes').empty();
+    });
+  });
 
